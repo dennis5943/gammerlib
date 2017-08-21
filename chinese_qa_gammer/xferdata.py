@@ -55,7 +55,9 @@ def outputIndexFile(src_data ,max_file_size = 1000,dest_folder = 'answers',index
     i = 0
     filesIdx = []
     
-    jieba.set_dictionary('dict.txt.big')
+    dictfile = os.path.dirname(os.path.abspath(__file__)) + '/dict.txt.big'
+    logger.debug('dictfile:%s' % dictfile)
+    jieba.set_dictionary(dictfile)
 
     for d in src_data:
         #輸出question分詞陣列、folder name、file name
