@@ -25,10 +25,10 @@ logger = logging.getLogger(__name__)
 
 logger.debug('fisrt log')
 
-def GetQ(q_filename = 'titlelist.txt',max_page = -1):
-    lp,tl = getPageTitles()
+def GetQ(q_filename = 'titlelist.txt',max_page = -1,url="https://forum.gamer.com.tw/B.php?bsn=60076&subbsn=0"):
+    lp,tl = getPageTitles(url)
     
-    urls = ["https://forum.gamer.com.tw/B.php?bsn=60076&subbsn=0&page=" + str(page) for page in range(1,int(lp['page']))]
+    urls = [url + "&page=" + str(page) for page in range(1,int(lp['page']))]
 
     if max_page > 0:
         urls = [urls[i] for i in range(0,min(max_page,len(urls)))]
