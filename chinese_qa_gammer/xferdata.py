@@ -49,8 +49,10 @@ def cleanData(qa_folder = 'QA/'):
     
 
 #--------開始輸出Questions Index檔案------
-def outputIndexFile(src_data ,max_file_size = 1000,dest_folder = 'answers',index_file_name = 'question_index.txt'):
-    logger.info('開始輸出Questions Index檔案')
+def outputIndexFile(src_data ,max_file_size = 1000,dest_folder = 'answers'):
+    index_file_name = '%s/answers_index.json'%dest_folder;
+
+    logger.info('開始輸出Questions Index檔案(%s)'%index_file_name)
     max_file_size = 1000
     i = 0
     filesIdx = []
@@ -61,25 +63,28 @@ def outputIndexFile(src_data ,max_file_size = 1000,dest_folder = 'answers',index
 
     for d in src_data:
         #輸出question分詞陣列、folder name、file name
-        q = {'file':"%s/%05d.txt" % (dest_folder,int(i / max_file_size)),
+        q = {'file':"answers/%05d.txt" % (int(i / max_file_size)),
              'id':i,
              'question':[word for word in jieba.cut(d["question"],cut_all=True) if word != ""]}
         filesIdx.append(q)
         i = i + 1
     
+    
+
     if os.path.dirname(index_file_name) != '':
         os.makedirs(os.path.dirname(index_file_name), exist_ok=True)
     with open(index_file_name,'w') as res_file:
         json.dump(filesIdx, fp = res_file,ensure_ascii=False)
 
 #輸出各別檔案
-def ouptputQAFiels(src_data,max_file_size = 1000,dest_folder = 'answers'):
-    logger.info('輸出各別檔案')
+def ouptputQAFiles(src_data,max_file_size = 1000,dest_folder = 'answers'):
+    qa_folder = '%s/answers/'%dest_folder;
+    logger.info('輸出各別檔案 qa_folder:%s'%qa_folder)
     i = 0
     datalist = []
     for d in src_data:
         #輸出question分詞陣列、folder name、file name
-        q = {'file':"%s/%05d.txt" % (dest_folder,int(i / max_file_size)),
+        q = {'file':"%s/%05d.txt" % (qa_folder,int(i / max_file_size)),
              'id':i,
              'question':[word for word in jieba.cut(d["question"],cut_all=True) if word != ""]}
 
@@ -106,7 +111,7 @@ if __name__ == '__main__':
     outputIndexFile(src_data,dest_folder = 'answers',index_file_name = 'answers_index.txt')
 
     #輸出各別檔案
-    ouptputQAFiels(src_data,dest_folder = 'answers')
+    ouptputQAFiles(src_data,dest_folder = 'answers')
 
     availkeys = ('question','answers')
     pd.DataFrame(src_data,columns = availkeys)

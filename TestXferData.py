@@ -8,19 +8,16 @@ max_file_size = 1000
 qa_folder = os.path.dirname(os.path.abspath(__file__))  + '/QA/'
 print('qa_folder' , qa_folder)
 
-dest_folder = os.path.dirname(os.path.abspath(__file__))  + '/answers/'
+dest_folder = os.path.dirname(os.path.abspath(__file__))  + '/output/'
 print('dest_folder' , dest_folder)
-
-indexfile = os.path.dirname(os.path.abspath(__file__))  + '/answers/answers_index.txt'
-print('indexfile' , indexfile)
 
 src_data = xferdata.cleanData(qa_folder = qa_folder)
 
 #輸出Questions Index檔案
-xferdata.outputIndexFile(src_data,dest_folder = dest_folder,index_file_name = indexfile)
+xferdata.outputIndexFile(src_data,dest_folder = dest_folder)
 
 #輸出各別檔案
-xferdata.ouptputQAFiels(src_data,dest_folder = dest_folder)
+xferdata.ouptputQAFiles(src_data,dest_folder = dest_folder)
 
-availkeys = ('question','answers')
+availkeys = ('question','output')
 pd.DataFrame(src_data,columns = availkeys)
